@@ -1,5 +1,5 @@
 # Snake
-Snake game for class.
+Snake game for class, written in Python using PyGame.
 
 ![](https://i.gyazo.com/5f3a545e77e3a5f05665d48b3468fcc3.png)
 
