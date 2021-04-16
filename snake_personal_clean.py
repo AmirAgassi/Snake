@@ -28,31 +28,31 @@ stop = False
 plzdont = False
 tick = 0 
 def backgroundthread(r,g,b,bkwards): # background thread that handles the background RGB color shifts
-		for i in range(2):
-			if bkwards == False: # if the colors aren't going in reverse
-				window.fill([r,g,b]) # color the background to R,G,B set from the last loop
-				currentBkColor = [r,g,b] # set the color for the next loop
-				if r == 250 and g == 250: # add to the RGB shift
-					b+=10
-				elif r == 250 and g < 250:
-					g+=10
-				elif r < 250:
-					r+=10
-			if r == 250 and g == 250 and b == 250 or bkwards == True: # remove from the RGB shift
-																	  # if already hit the cap
-				bkwards = True
+	for _ in range(2):
+		if bkwards == False: # if the colors aren't going in reverse
+			window.fill([r,g,b]) # color the background to R,G,B set from the last loop
+			currentBkColor = [r,g,b] # set the color for the next loop
+			if r == 250 and g == 250: # add to the RGB shift
+				b+=10
+			elif r == 250 and g < 250:
+				g+=10
+			elif r < 250:
+				r+=10
+		if r == 250 and g == 250 and b == 250 or bkwards == True: # remove from the RGB shift
+																  # if already hit the cap
+			bkwards = True
 
-				if r == 0 and g == 0:
-					b-=10
-				elif r == 0 and g > 0:
-					g-=10
-				elif r > 0:
-					r-=10
-				if r == 0 and g == 0 and b == 0:
-					bkwards = False
-				window.fill([r,g,b])
-				currentBkColor = [r,g,b]
-		return [r,g,b,bkwards] # return current modified values back
+			if r == 0 and g == 0:
+				b-=10
+			elif r == 0 and g > 0:
+				g-=10
+			elif r > 0:
+				r-=10
+			if r == 0 and g == 0 and b == 0:
+				bkwards = False
+			window.fill([r,g,b])
+			currentBkColor = [r,g,b]
+	return [r,g,b,bkwards] # return current modified values back
 
 def thread_function(name): # threading functions for backgroudthread
 	global r,g,b,bkwards,tick
@@ -149,10 +149,7 @@ def startNewGame():
 ############################          FUNCTIONS START          ############################
 
 	def createTwoDSpace(x,y): # creates a x by x list of items to store grid items on
-	    tempspace = []
-	    for n in range(y):
-	        tempspace.append([0] * x)
-	    return tempspace
+		return [[0] * x for _ in range(y)]
 	
 	def setMetatable(x,y,val): # sets the metatable value at a grid position
 		grid[x][y][2] = val
@@ -212,9 +209,7 @@ def startNewGame():
 		return False
 
 	def checkBorder(x,y): # checks if an x,y coordinate is outside of the grid
-		if x <= borderx and y <= bordery:
-			return True
-		return False
+		return x <= borderx and y <= bordery
 
 	def getRandomColor(): # returns a random color
 		return [random.randint(0,255),random.randint(0,255),random.randint(0,255)]
@@ -224,7 +219,7 @@ def startNewGame():
 
 	def refreshSnake(): # refreshes the snake on the grid
 		xdd = 1
-		for i in range(snakeCount):
+		for _ in range(snakeCount):
 			x = searchFirst("snakehead")
 			x,y = x[0],x[1]
 			if not x:
@@ -301,7 +296,7 @@ def startNewGame():
 						pygame.quit()
 						sys.exit()
 						raise SystemExit
-					elif event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONUP:
+					elif event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONUP]:
 						print("a")
 						stop = False
 						cont = False
